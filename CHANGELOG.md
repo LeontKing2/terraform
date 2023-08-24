@@ -27,6 +27,7 @@ ENHANCEMENTS:
     * Now honors the standard AWS environment variables for credential and configuration files: `AWS_CONFIG_FILE` and `AWS_SHARED_CREDENTIALS_FILE`. ([#30493](https://github.com/hashicorp/terraform/issues/30493))
     * `shared_config_files` and `shared_credentials_files` arguments for specifying credential and configuration files as part of the backend configuration. ([#30493](https://github.com/hashicorp/terraform/issues/30493))
     * Internally the backend now uses AWS SDK for Go v2, which should address various other missing behaviors that are handled by the SDK rather than by Terraform itself. ([#30443](https://github.com/hashicorp/terraform/issues/30443))
+    * `custom_ca_bundle` argument and support for the corresponding AWS environment variable, `AWS_CA_BUNDLE`, for providing custom root and intermediate certificates. ([#33689](https://github.com/hashicorp/terraform/issues/33689))
 
 BUG FIXES:
 * core: Transitive dependencies were lost during apply when the referenced resource expanded into zero instances. ([#33403](https://github.com/hashicorp/terraform/issues/33403))
