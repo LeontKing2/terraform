@@ -167,6 +167,11 @@ func (b *Backend) ConfigSchema() *configschema.Block {
 				Optional:    true,
 				Description: "AWS profile name",
 			},
+			"retry_mode": {
+				Type:        cty.String,
+				Optional:    true,
+				Description: "Specifies how retries are attempted.",
+			},
 			"shared_config_files": {
 				Type:        cty.Set(cty.String),
 				Optional:    true,
@@ -805,6 +810,13 @@ func (b *Backend) Configure(obj cty.Value) tfdiags.Diagnostics {
 	}
 	if val, ok := boolAttrOk(obj, "use_dualstack_endpoint"); ok {
 		cfg.UseDualStackEndpoint = val
+	}
+
+	if v, ok := retrieveArgument(&diags,
+		newAttributeRetriever(obj, cty.GetAttrPath("retry_mode")),
+		newEnvvarRetriever("AWS_RETRY_MODE"),
+	); ok {
+		cfg.RetryMode = aws.RetryMode(v)
 	}
 
 	_ /* ctx */, awsConfig, cfgDiags := awsbase.GetAwsConfig(ctx, cfg)
